@@ -2,9 +2,9 @@ import mysql.connector
 from fastapi import FastAPI
 import random
 
-# 1) run : uvicorn api:app --reload
-# 2) change url : http://127.0.0.1:8000/data/
-
+# 1) execute : uvicorn api:app --reload.
+# 2) execute : run streamlit main.py.
+                                                
 # ======================================================================================================================>
 
 # Initialisation de l'app FastAPI.
