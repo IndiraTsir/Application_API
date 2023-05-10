@@ -22,17 +22,16 @@ conn = mysql.connector.connect(
 # ======================================================================================================================>
 
 # Fonction pour récupérer les données depuis la base de données MySQL.
-def get_data_from_database(conn=conn):
+def get_data_from_database(table_1, conn=conn):
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM table_b")
+    cursor.execute(f"SELECT * FROM {table_1}")
     data = cursor.fetchall()
-    conn.close()
     return data
 
 # Route pour récupérer les données via une requête GET.
 @app.get("/data/get")
 async def get_data():
-    data = get_data_from_database()
+    data = get_data_from_database(table_1="predictions")
     print("Message : Données récupérées avec succès")
     return {"data": data}
 
@@ -75,8 +74,8 @@ def insert_data_to_database(table_1: str, table_2: str, data: dict, conn=conn):
 # Route pour envoyer des données via une requête POST.
 @app.post("/data/post")
 async def send_data(data: dict):
-    table_1 = "table_a"
-    table_2 = "table_b"
+    table_1 = "Features"
+    table_2 = "Predictions"
     insert_data_to_database(table_1, table_2, data)
     return {"message": "Données insérées avec succès"}
 
