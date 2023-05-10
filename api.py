@@ -2,6 +2,7 @@ import mysql.connector
 from fastapi import FastAPI
 import random
 
+# Lancer l'application et l'API
 # 1) execute : uvicorn api:app --reload.
 # 2) execute : run streamlit main.py.
                                                 
@@ -19,10 +20,14 @@ conn = mysql.connector.connect(
     database="linkedin_bdd"
 )
 
+# Le nom des tables à créer au lancement.
+table_1="Features"
+table_2="Predictions"
+
 # ======================================================================================================================>
 
 # Fonction pour récupérer les données depuis la base de données MySQL.
-def get_data_from_database(table_1, conn=conn):
+def get_data_from_database(table_1=table_1, conn=conn):
     cursor = conn.cursor()
     cursor.execute(f"SELECT * FROM {table_1}")
     data = cursor.fetchall()
@@ -38,7 +43,7 @@ async def get_data():
 # ======================================================================================================================>
 
 # Fonction pour insérer des données dans la base de données MySQL.
-def insert_data_to_database(table_1: str, table_2: str, data: dict, conn=conn):
+def insert_data_to_database(data:dict, conn=conn,table_1=table_1, table_2=table_2):
     try:
         cursor = conn.cursor()
 
@@ -76,7 +81,7 @@ def insert_data_to_database(table_1: str, table_2: str, data: dict, conn=conn):
 async def send_data(data: dict):
     table_1 = "Features"
     table_2 = "Predictions"
-    insert_data_to_database(table_1, table_2, data)
+    insert_data_to_database(data, table_1=table_1, table_2=table_2)
     return {"message": "Données insérées avec succès"}
 
 # ======================================================================================================================>
